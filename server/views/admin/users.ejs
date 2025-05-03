@@ -1,0 +1,211 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Users Management</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+      <span data-feather="plus"></span>
+      Add User
+    </button>
+  </div>
+</div>
+
+<% if(typeof success !== 'undefined') { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= success %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<% if(typeof error !== 'undefined') { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= error %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Role</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if(users.length === 0) { %>
+        <tr>
+          <td colspan="6" class="text-center">No users found</td>
+        </tr>
+      <% } else { %>
+        <% users.forEach((user, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td>
+              <span class="badge <%= user.role === 'admin' ? 'bg-danger' : 'bg-primary' %>">
+                <%= user.role %>
+              </span>
+            </td>
+            <td><%= new Date(user.createdAt).toLocaleDateString() %></td>
+            <td>
+              <button 
+                class="btn btn-sm btn-info edit-user" 
+                data-id="<%= user._id %>"
+                data-username="<%= user.username %>"
+                data-email="<%= user.email %>"
+                data-role="<%= user.role %>"
+                data-bs-toggle="modal" 
+                data-bs-target="#editUserModal"
+              >
+                <span data-feather="edit"></span>
+              </button>
+              <button 
+                class="btn btn-sm btn-danger delete-user" 
+                data-id="<%= user._id %>"
+                data-username="<%= user.username %>"
+                data-bs-toggle="modal" 
+                data-bs-target="#deleteUserModal"
+              >
+                <span data-feather="trash-2"></span>
+              </button>
+            </td>
+          </tr>
+        <% }) %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/admin/users" method="POST">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editUserForm" action="/admin/users/" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="edit-username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="edit-username" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="edit-email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="edit-email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="edit-role" class="form-label">Role</label>
+            <select class="form-select" id="edit-role" name="role">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteUserModalLabel">Delete User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the user <span id="delete-username" class="fw-bold"></span>?</p>
+        <p class="text-danger">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteUserForm" action="/admin/users/" method="POST">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Edit user
+    const editButtons = document.querySelectorAll('.edit-user');
+    editButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const username = this.getAttribute('data-username');
+        const email = this.getAttribute('data-email');
+        const role = this.getAttribute('data-role');
+        
+        document.getElementById('edit-username').value = username;
+        document.getElementById('edit-email').value = email;
+        document.getElementById('edit-role').value = role;
+        document.getElementById('editUserForm').action = `/admin/users/${id}`;
+      });
+    });
+    
+    // Delete user
+    const deleteButtons = document.querySelectorAll('.delete-user');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        const username = this.getAttribute('data-username');
+        
+        document.getElementById('delete-username').textContent = username;
+        document.getElementById('deleteUserForm').action = `/admin/users/${id}`;
+      });
+    });
+  });
+</script>

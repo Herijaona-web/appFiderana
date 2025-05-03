@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="card-title">Total Users</h5>
+            <h2 class="display-4"><%= stats.users %></h2>
+          </div>
+          <div class="text-primary">
+            <span data-feather="users" style="width: 48px; height: 48px;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="card-title">Recent Logins</h5>
+            <h2 class="display-4"><%= stats.recentLogins %></h2>
+          </div>
+          <div class="text-success">
+            <span data-feather="log-in" style="width: 48px; height: 48px;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="card-title">Security Alerts</h5>
+            <h2 class="display-4"><%= stats.securityAlerts %></h2>
+          </div>
+          <div class="text-danger">
+            <span data-feather="alert-triangle" style="width: 48px; height: 48px;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <h5 class="mb-0">Recent Activity</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">No recent activity to display.</p>
+      </div>
+    </div>
+  </div>
+</div>

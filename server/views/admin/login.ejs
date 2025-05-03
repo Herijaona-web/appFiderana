@@ -1,0 +1,36 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+          <h3 class="mb-0">Admin Login</h3>
+        </div>
+        <div class="card-body p-5">
+          <% if(typeof error !== 'undefined') { %>
+            <div class="alert alert-danger" role="alert">
+              <%= error %>
+            </div>
+          <% } %>
+          <form action="/admin/login" method="POST">
+            <div class="mb-3">
+              <label for="identifier" class="form-label">Email or Username</label>
+              <input type="text" class="form-control" id="identifier" name="identifier" placeholder="Enter your email or username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-center text-muted">
+          <p class="mb-0">Default admin login:</p>
+          <p class="mb-0">Username: admin</p>
+          <p class="mb-0">Password: nodejs</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
